@@ -9,7 +9,7 @@ let tray;
 let isQuiting = false;
 let webContents
 function createWindow() {
-    const iconSrc = path.join(__dirname,'icons/tray-icon.png');
+    const iconSrc = path.join(__dirname,'icons/tray-icon@2x.png');
     const trayIcon = nativeImage.createFromPath(iconSrc);
 
     mainWindow = new BrowserWindow({ width: 800, height: 600, show: true,icon:trayIcon,
@@ -139,7 +139,15 @@ function connectWebsocket(options) {
             if (message.deviceId === deviceId) {
                 return
             }
-            clipboard.writeText(message.data)
+            try {
+                // if (new Date().getTime() > new Date(message.time).getTime()){
+                //     // 检测到外部剪贴板内容变化，但是时间戳比当前时间戳还要小，说明是自己发送的消息，不需要处理
+                //     return;
+                // }
+                clipboard.writeText(message.data)
+            }catch (e) {
+
+            }
         }
         // 创建一个监听剪贴板变化的函数
         clipboardListing = setInterval(() => {
