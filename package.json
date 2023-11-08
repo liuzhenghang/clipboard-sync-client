@@ -1,0 +1,32 @@
+{
+  "name": "clipboard-sync",
+  "version": "1.0.0",
+  "author": "枫叶不红",
+  "description": "sync clipboard between MacOS Windows Linux",
+  "main": "main.js",
+  "scripts": {
+    "build": "webpack --config ./lib/webpack.config.js --mode production",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.1.0",
+    "websocket": "^1.0.24"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.4.2",
+    "@electron-forge/maker-deb": "^6.4.2",
+    "@electron-forge/maker-rpm": "^6.4.2",
+    "@electron-forge/maker-squirrel": "^6.4.2",
+    "@electron-forge/maker-zip": "^6.4.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
+    "electron": "^27.0.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "websocket": "^1.0.34"
+  }
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clipboard Sync</title>
+    <link rel="stylesheet" href="css/css.css">
+</head>
+<body>
+
+<div class="form-box">
+    <form id="websocket-form" class="form">
+        <h2 id="status" class="status-title">Connection Status: Not Connected</h2>
+        <div class="inputContainer">
+            <input type="text" id="ws-url" class="input" placeholder="WebSocket URL" required value="ws://127.0.0.1:8765">
+            <label for="ws-url" class="label">WebSocket URL:</label>
+        </div>
+        <div class="inputContainer">
+            <input type="text" id="group" class="input" placeholder="Group Name" required value="main">
+            <label for="group" class="label">Group Name:</label>
+        </div>
+        <div class="inputContainer">
+            <input type="text" id="deviceId" class="input" placeholder="Device Name" required disabled>
+            <label for="group" class="label">Device Name:</label>
+        </div>
+        <button type="button" onclick="disConnect()" id="disconnect-button" class="disconnectBtn">Disconnect</button>
+        <button class="connectBtn" value="Connect" onclick="onConnect()" id="connect-button">Connect</button>
+    </form>
+</div>
+
+
+<script src="build/clipboard-sync.js"></script>
+<script>
+    let app=null
+    const wsUrl = document.getElementById('ws-url')
+    const groupName = document.getElementById('group')
+    const device = document.getElementById('deviceId')
+    const connectButton = document.getElementById('connect-button')
+    const disconnectButton = document.getElementById('disconnect-button')
+    const statusText = document.getElementById('status')
+    // const formBox = document.getElementById('websocket-form')
+
+
+    const wsUrlValue = localStorage.getItem('wsUrl')
+    const groupNameValue = localStorage.getItem('groupName')
+    // const deviceIdValue = localStorage.getItem('deviceId')
+
+    let loadLocal = false
+    if (wsUrlValue && groupNameValue){
+        loadLocal = true
+        wsUrl.value = wsUrlValue
+        groupName.value = groupNameValue
+        // device.value = deviceIdValue
+        onConnect()
+    }
+    if (!device.value){
+        setTimeout(() => {
+            device.value = window.osName
+        }, 1000)
+    }
+    function statusUpdate(status) {
+        if (status.status){
+            wsUrl.disabled = true
+            groupName.disabled = true
+            // device.disabled = true
+            connectButton.style.display = 'none'
+            disconnectButton.style.display = 'block'
+        }else {
+            wsUrl.disabled = false
+            groupName.disabled = false
+            // device.disabled = false
+            connectButton.style.display = 'block'
+            disconnectButton.style.display = 'none'
+        }
+        if (status.message){
+            statusText.innerText = status.message
+        }
+    }
+    window.ipc_statusChange = statusUpdate
+    statusUpdate({status:false})
+
+    function onConnect() {
+        if (!groupName.value || !wsUrl.value){
+            alert('Please enter a group name and a WebSocket URL')
+            return;
+        }
+        localStorage.setItem('wsUrl', wsUrl.value)
+        localStorage.setItem('groupName', groupName.value)
+        // localStorage.setItem('deviceId', device.value)
+        // app = window.initApp({
+        //     wsUrl: wsUrl.value,
+        //     groupName: groupName.value,
+        //     deviceId: device.value,
+        //     statusCallback: (status) => {
+        //         statusUpdate(status)
+        //     }
+        // })
+        window.ipc_connectServer({
+            wsUrl: wsUrl.value,
+            groupName: groupName.value
+        })
+    }
+    function disConnect() {
+        // if (app){
+        //     app.disconnect()
+        //     app = null
+        // }
+        window.ipc_disconnectServer()
+    }
+</script>
+</body>
+</html>
