@@ -9,7 +9,7 @@ let tray;
 let isQuiting = false;
 let webContents
 function createWindow() {
-    const iconSrc = path.join(__dirname,'icons/tray-icon.png');
+    const iconSrc = path.join(__dirname,'icons/tray-icon.ico');
     const trayIcon = nativeImage.createFromPath(iconSrc);
 
     mainWindow = new BrowserWindow({ width: 800, height: 600, show: true,icon:trayIcon,
