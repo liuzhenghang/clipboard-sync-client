@@ -3,6 +3,8 @@
 
 Clipboard Sync Client 是用于连接到 Clipboard Sync Server 的客户端应用程序，允许您在多个设备之间同步剪贴板内容。您可以通过以下方式构建和安装客户端：
 
+## 服务端 Clipboard Sync Server
+[Clipboard Sync Server](https://github.com/liuzhenghang/clipboard-sync-server)
 ## 构建方式(NodeJs v16.17.1)
 
 ### 克隆项目并安装依赖
@@ -51,4 +53,3 @@ Clipboard Sync Client 使用 MIT 许可证。有关更多信息，请参阅[LICE
 
 ---
 
-请注意，这是一个示例README，您应根据实际项目的需求和特点进行调整和扩展。此外，您还可以添加有关如何配置客户端以连接到服务器的详细信息，以帮助用户正确使用客户端应用程序。
